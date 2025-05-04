@@ -1,9 +1,12 @@
-import './bootstrap.ts';
-
 import { createInertiaApp } from '@inertiajs/vue3';
+import axios from 'axios';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
+import './bootstrap.ts';
+
+axios.defaults.headers.common['X-CSRF-TOKEN'] = document?.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+axios.defaults.withCredentials = true; // importante
 
 // 🧭
 import { ZiggyVue } from 'ziggy-js';
