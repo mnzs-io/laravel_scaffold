@@ -1,0 +1,100 @@
+services:
+  # 💾 DATABASE
+  db:
+    container_name: c-db
+    build:
+      context: ./.docker/db
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: oB?nrkvLD%0JAgia
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+    ports:
+      - '${DB_PORT}:3306'
+    user: root
+    networks:
+      - app_network
+
+  # 🚀 APP COM OCTANE
+  app-octane:
+    container_name: c-app-octane
+    build:
+      context: ./.docker/app
+      dockerfile: Dockerfile.octane
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./:/var/www
+    ports:
+      - '8000:8000' # porta HTTP do Octane
+    networks:
+      - app_network
+
+  #   # 🐌 APP COM FPM
+  #   app-fpm:
+  #     container_name: c-app-fpm
+  #     build:
+  #       context: ./.docker/app
+  #       dockerfile: Dockerfile.fpm
+  #     depends_on:
+  #       - db
+  #       - redis
+  #     volumes:
+  #       - ./:/var/www
+  #     ports:
+  #       - '9000:9000' # porta do FPM (interna)
+  #     networks:
+  #       - app_network
+  #   # 🌐 NGINX (usado com app-fpm)
+  #   nginx:
+  #     container_name: c-nginx
+  #     build:
+  #       context: ./.docker/nginx
+  #       dockerfile: Dockerfile
+  #     depends_on:
+  #       - app-fpm
+  #     ports:
+  #       - '8080:80'
+  #     volumes:
+  #       - ./:/var/www
+  #       - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+  #     networks:
+  #       - app_network
+
+  # 🔨 WORKER
+  worker:
+    container_name: c-worker
+    build:
+      context: ./.docker/worker
+      dockerfile: Dockerfile
+    depends_on:
+      - app-octane
+      - db
+      #   - nginx
+      - redis
+    volumes:
+      - ./:/var/www
+    ports:
+      - '9001:9001'
+      - '8080:8080'
+    networks:
+      - app_network
+
+  # 🔥 Redis
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - '6379:6379'
+    networks:
+      - app_network
+
+volumes:
+  app_data:
+    driver: local
+
+networks:
+  app_network:
+    driver: bridge
