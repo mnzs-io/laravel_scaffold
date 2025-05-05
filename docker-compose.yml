@@ -17,52 +17,51 @@ services:
     networks:
       - app_network
 
-  # 🚀 APP COM OCTANE
-  app-octane:
-    container_name: c-app-octane
+    # 🚀 APP COM OCTANE
+    #   app-octane:
+    #     container_name: c-app-octane
+    #     build:
+    #       context: ./.docker/app
+    #       dockerfile: Dockerfile.octane
+    #     depends_on:
+    #       - db
+    #       - redis
+    #     volumes:
+    #       - ./:/var/www
+    #     ports:
+    #       - '8000:8000' # porta HTTP do Octane
+    #     networks:
+    #       - app_network
+    # 🐌 APP COM FPM
+  app-fpm:
+    container_name: c-app-fpm
     build:
       context: ./.docker/app
-      dockerfile: Dockerfile.octane
+      dockerfile: Dockerfile.fpm
     depends_on:
       - db
       - redis
     volumes:
       - ./:/var/www
     ports:
-      - '8000:8000' # porta HTTP do Octane
+      - '9000:9000' # porta do FPM (interna)
     networks:
       - app_network
-
-  #   # 🐌 APP COM FPM
-  #   app-fpm:
-  #     container_name: c-app-fpm
-  #     build:
-  #       context: ./.docker/app
-  #       dockerfile: Dockerfile.fpm
-  #     depends_on:
-  #       - db
-  #       - redis
-  #     volumes:
-  #       - ./:/var/www
-  #     ports:
-  #       - '9000:9000' # porta do FPM (interna)
-  #     networks:
-  #       - app_network
-  #   # 🌐 NGINX (usado com app-fpm)
-  #   nginx:
-  #     container_name: c-nginx
-  #     build:
-  #       context: ./.docker/nginx
-  #       dockerfile: Dockerfile
-  #     depends_on:
-  #       - app-fpm
-  #     ports:
-  #       - '8080:80'
-  #     volumes:
-  #       - ./:/var/www
-  #       - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf
-  #     networks:
-  #       - app_network
+  # 🌐 NGINX (usado com app-fpm)
+  nginx:
+    container_name: c-nginx
+    build:
+      context: ./.docker/nginx
+      dockerfile: Dockerfile
+    depends_on:
+      - app-fpm
+    ports:
+      - '80:80'
+    volumes:
+      - ./:/var/www
+      - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - app_network
 
   # 🔨 WORKER
   worker:
@@ -71,9 +70,9 @@ services:
       context: ./.docker/worker
       dockerfile: Dockerfile
     depends_on:
-      - app-octane
+      - app-fpm
       - db
-      #   - nginx
+      - nginx
       - redis
     volumes:
       - ./:/var/www
