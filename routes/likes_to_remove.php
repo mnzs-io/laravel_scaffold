@@ -17,11 +17,15 @@ Route::middleware('web.guest')->group(function () {
     })->name('post.like');
 });
 
-Route::get('/likes', function () {
-    return Inertia\Inertia::render('ToRemove/Likes', [
-        'breadcrumbs' => [['title' => 'Likes', 'href' => route('get.likes')]],
-    ]);
-})->name('get.likes');
-Route::post('/like/authenticated', function (Request $request) {
-    event(new LikeEvent(Auth::user()->name));
-})->name('post.like.authenticated');
+Route::middleware('web.authenticated')->group(function () {
+
+    Route::get('/likes', function () {
+        return Inertia\Inertia::render('ToRemove/Likes', [
+            'breadcrumbs' => [['title' => 'Likes', 'href' => route('get.likes')]],
+        ]);
+    })->name('get.likes');
+
+    Route::post('/like/authenticated', function (Request $request) {
+        event(new LikeEvent(Auth::user()->name));
+    })->name('post.like.authenticated');
+});
