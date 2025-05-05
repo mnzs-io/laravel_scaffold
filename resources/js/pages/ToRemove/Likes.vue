@@ -2,7 +2,6 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useFlashMessages } from '@/composables/useFlashMessage';
-import { getCookie } from '@/lib/cookie';
 import { Head, useForm } from '@inertiajs/vue3';
 import { Heart } from 'lucide-vue-next';
 import { UUIDTypes, v4 as uuidv4 } from 'uuid';
@@ -25,10 +24,6 @@ window.Echo.channel('likes').listen('.like.received', (like: Like) => {
         id: uuidv4(),
     });
 });
-
-const token = getCookie('XSRF-TOKEN');
-console.log('token');
-console.log(token);
 
 const form = useForm({});
 
