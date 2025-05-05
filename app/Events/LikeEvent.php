@@ -5,9 +5,10 @@ namespace App\Events;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Queue\ShouldQueue;  // Adicione esta linha
 use Illuminate\Foundation\Events\Dispatchable;
 
-class LikeEvent implements ShouldBroadcast
+class LikeEvent implements ShouldBroadcast, ShouldQueue
 {
     use Dispatchable, InteractsWithSockets;
 
