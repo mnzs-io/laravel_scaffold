@@ -5,10 +5,12 @@ import { resolve } from 'node:path';
 import path from 'path';
 import { defineConfig } from 'vite';
 import vueDevTools from 'vite-plugin-vue-devtools';
-console.log(vueDevTools);
-
 export default defineConfig({
     plugins: [
+        vueDevTools({
+            appendTo: 'head',
+            componentInspector: true,
+        }),
         laravel({
             input: ['resources/js/app.ts'],
             ssr: 'resources/js/ssr.ts',
