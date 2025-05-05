@@ -10,6 +10,7 @@ services:
       MYSQL_ROOT_PASSWORD: oB?nrkvLD%0JAgia
       MYSQL_DATABASE: laravel
       MYSQL_USER: laravel
+      MYSQL_PASSWORD: senhaDoUsuario
     ports:
       - '${DB_PORT}:3306'
     user: root
