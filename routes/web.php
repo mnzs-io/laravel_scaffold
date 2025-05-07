@@ -17,6 +17,8 @@ Route::middleware('web.authenticated')->group(function () {
         return response()->json(['token' => csrf_token()]);
     });
 
+    Route::get('/log', [PageController::class, 'log']);
+
     require __DIR__ . '/actions/users.php';
 
 });

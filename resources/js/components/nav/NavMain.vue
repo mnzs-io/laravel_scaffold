@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/sidebar';
 import { useNav } from '@/composables/useNav';
 import { useAuthStore } from '@/stores/auth_store';
-import { usePage } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import { ChevronRight } from 'lucide-vue-next';
 
 const { main, shouldShow } = useNav();
@@ -37,9 +37,9 @@ const { user } = useAuthStore();
                         <SidebarMenuSub>
                             <SidebarMenuSubItem v-for="subItem in item.items" :key="subItem.title">
                                 <SidebarMenuSubButton as-child>
-                                    <a :href="subItem.href">
+                                    <Link :href="subItem.href">
                                         <span>{{ subItem.title }}</span>
-                                    </a>
+                                    </Link>
                                 </SidebarMenuSubButton>
                             </SidebarMenuSubItem>
                         </SidebarMenuSub>

@@ -3,21 +3,20 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Context;
+use Illuminate\Validation\Rule;
 
 class UpdateUserProfileDataRequest extends FormRequest
 {
     public function authorize(): bool
     {
-
-        return request()->user()->can('update', Context::get('user'));
+        return true;
     }
 
     public function rules(): array
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $this->user],
+            'email' => ['required', 'string', 'email', 'max:255',  Rule::unique('users', 'email')->ignore($this->user, 'id')],
         ];
     }
 

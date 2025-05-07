@@ -57,7 +57,11 @@ return [
             'channels' => explode(',', env('LOG_STACK', 'single')),
             'ignore_exceptions' => false,
         ],
-
+        'auditoria' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/audit.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),

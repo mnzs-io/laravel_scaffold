@@ -1,5 +1,7 @@
 @import 'tailwindcss';
-@source inline("{text,bg}-{red,blue,green,yellow,purple,orange,gray}-{100,200,300,400,500,600,800}");
+
+@source inline("{text,bg,border,dark:text,dark:bg,dark:border}-{red,blue,green,yellow,purple,orange,gray}-{100,200,300,400,500,600,700,800}");
+
 @import 'tw-animate-css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';

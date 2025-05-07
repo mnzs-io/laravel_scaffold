@@ -17,4 +17,16 @@ class PageController extends Controller
     {
         return Inertia::render('Welcome');
     }
+
+    public function profile()
+    {
+        return Inertia::render('Profile/ProfileEdit', [
+            'breadcrumbs' => [['title' => 'Editar Perfil', 'href' => route('get.profile')]],
+        ]);
+    }
+
+    public function log()
+    {
+        return Inertia::render('Log/LogInspect');
+    }
 }

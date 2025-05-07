@@ -24,11 +24,4 @@ class AuthController extends Controller
             'register_enabled' => config('settings.register_enabled'),
         ]);
     }
-
-    public function profile()
-    {
-        return Inertia::render('Profile/ProfileEdit', [
-            'breadcrumbs' => [['title' => 'Editar Perfil', 'href' => route('get.profile')]],
-        ]);
-    }
 }

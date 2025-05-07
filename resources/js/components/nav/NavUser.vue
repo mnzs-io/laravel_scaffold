@@ -14,10 +14,11 @@ import { useNav } from '@/composables/useNav';
 import { useAuthStore } from '@/stores/auth_store';
 import { Link } from '@inertiajs/vue3';
 import { LogOut } from 'lucide-vue-next';
+import { storeToRefs } from 'pinia';
 
 const { isMobile } = useSidebar();
 
-const { name, email, avatar, initials } = useAuthStore();
+const { name, email, avatar, initials } = storeToRefs(useAuthStore());
 
 const { user: userNav } = useNav();
 </script>
