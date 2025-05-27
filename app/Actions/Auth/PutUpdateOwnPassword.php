@@ -9,14 +9,15 @@ use App\Traits\ApiResponses;
 use App\Traits\HybridResponse;
 use Illuminate\Support\Facades\Hash;
 
-class PutUpdatePassword extends Controller
+class PutUpdateOwnPassword extends Controller
 {
     use ApiResponses, HybridResponse;
 
     private User $user;
 
-    public function __invoke(UpdateUserPasswordRequest $request, User $user)
+    public function __invoke(UpdateUserPasswordRequest $request)
     {
+        $user = $request->user();
         if (!Hash::check($request->current, $user->password)) {
             return back()->withErrors(['current' => 'A senha atual está incorreta.']);
         }

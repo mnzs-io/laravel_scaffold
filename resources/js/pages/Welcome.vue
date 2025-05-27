@@ -1,14 +1,16 @@
+<script setup lang="ts">
+import AppThemeSelector from '@/components/app/AppThemeSelector.vue';
+import GuestLayout from '@/layouts/GuestLayout.vue';
+import { SharedData } from '@/types';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+
+const page = usePage<SharedData>();
+</script>
+
 <script lang="ts">
 export default {
     layout: GuestLayout,
 };
-</script>
-<script setup lang="ts">
-import AppThemeSelector from '@/components/app/AppThemeSelector.vue';
-import GuestLayout from '@/layouts/GuestLayout.vue';
-import { Head, Link, usePage } from '@inertiajs/vue3';
-
-const page = usePage();
 </script>
 
 <template>
@@ -18,29 +20,31 @@ const page = usePage();
     </Head>
     <div class="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:justify-center lg:p-8 dark:bg-[#0a0a0a]">
         <header class="mb-6 w-full max-w-[335px] text-sm not-has-[nav]:hidden lg:max-w-4xl">
-            <nav class="flex items-center justify-end gap-4">
+            <nav class="flex items-center justify-between gap-4">
                 <AppThemeSelector />
-                <Link
-                    v-if="page.props.auth?.user"
-                    :href="route('get.dashboard')"
-                    class="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
-                >
-                    Dashboard
-                </Link>
-                <template v-else>
+                <div>
                     <Link
-                        :href="route('get.auth.login')"
-                        class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
-                    >
-                        Log in
-                    </Link>
-                    <Link
-                        href="#"
+                        v-if="page.props.user"
+                        :href="route('get.dashboard')"
                         class="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
                     >
-                        Register
+                        Dashboard
                     </Link>
-                </template>
+                    <template v-else>
+                        <Link
+                            :href="route('get.auth.login')"
+                            class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
+                        >
+                            Log in
+                        </Link>
+                        <Link
+                            href="#"
+                            class="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+                        >
+                            Register
+                        </Link>
+                    </template>
+                </div>
             </nav>
         </header>
         <div class="flex w-full items-center justify-center opacity-100 transition-opacity duration-750 lg:grow starting:opacity-0">

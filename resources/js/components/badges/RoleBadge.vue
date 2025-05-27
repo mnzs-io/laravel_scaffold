@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Badge } from '@/components/ui/badge';
-import { LaravelRole, Roles, RoleWithId } from '@/types/server/laravel';
+import { LaravelRole, Roles, RoleWithId } from '@/types/server/laravel_types';
 import { computed } from 'vue';
 
 const props = defineProps<{
@@ -36,7 +36,7 @@ const roleObject = computed(() => {
         :class="`bg-${roleObject.color}-100 dark:bg-${roleObject.color}-600 text-${roleObject.color}-600 dark:text-${roleObject.color}-100 border border-${roleObject.color}-200 dark:border-${roleObject.color}-800`"
         variant="outline"
     >
-        {{ roleObject.name }}
+        {{ roleObject.name.charAt(0).toUpperCase() + roleObject.name.slice(1).toLowerCase() }}
     </Badge>
 </template>
 

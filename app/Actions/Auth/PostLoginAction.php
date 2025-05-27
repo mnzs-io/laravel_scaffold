@@ -5,6 +5,7 @@ namespace App\Actions\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
+use App\Tools\FlashMessage;
 use App\Traits\ApiResponses;
 use App\Traits\HybridResponse;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,10 @@ class PostLoginAction extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::validate($credentials)) {
             $this->user = User::where('email', $credentials['email'])->first();
+            if (!$this->user->active) {
+                Auth::logout();
+                FlashMessage::warning('Conta desativada. Por favor consulte os administradores');
+            }
 
             return $this->respond($request);
         } else {

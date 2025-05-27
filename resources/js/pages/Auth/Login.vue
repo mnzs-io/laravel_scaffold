@@ -66,6 +66,9 @@ const submit = () => {
                     placeholder="Password"
                 />
             </div>
+            <div class="text-muted-foreground text-end text-sm" v-if="register_enabled">
+                <Link :href="route('get.auth.forgot-password')" class="text-foreground"> Esqueci a senha </Link>
+            </div>
 
             <!-- TODO: Verificar como e porque tem isso -->
             <!-- <div class="flex items-center justify-between">

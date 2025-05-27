@@ -9,7 +9,7 @@ use App\Traits\ApiResponses;
 use App\Traits\HybridResponse;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class PutUpdateProfileData extends AuditableAction
 {
@@ -21,9 +21,17 @@ class PutUpdateProfileData extends AuditableAction
     {
         try {
             DB::beginTransaction();
-
+            $newAvatar = $this->saveImage($request);
+            if ($newAvatar) {
+                $request->merge(['avatar' => $newAvatar]);
+            }
             $antes = $user->toArray();
-            $user->update($request->validated());
+            $user->update([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'avatar' => $newAvatar ?? $user->avatar,
+            ]);
+            $user->refresh();
             $depois = $user->toArray();
             $this->audit($antes, $depois);
 
@@ -31,10 +39,38 @@ class PutUpdateProfileData extends AuditableAction
             $this->respond($request);
         } catch (Exception $e) {
             DB::rollBack();
-            Log::channel('auditoria')->error('Erro ao atualizar dados', ['erro' => $e]);
-            throw $e;
+            info($e);
+
+            return $this->respondWithError($request, 'Erro ao salvar novos dados');
         }
 
+    }
+
+    private function saveImage(UpdateUserProfileDataRequest $request): ?string
+    {
+        $user = request()->user();
+        if ($request->avatar) {
+            info('veio' . $request->avatar);
+            $data = $request->input('avatar');
+            if ($data && preg_match('/^data:image\\/(\\w+);base64,/', $data, $type)) {
+                $data = substr($data, strpos($data, ',') + 1);
+                $type = strtolower($type[1]);
+                $data = base64_decode($data);
+
+                $filename = time() . '-' . $user->id . '.' . $type;
+                Storage::put("avatars/{$filename}", $data);
+
+                $user->update(['avatar' => $filename]);
+
+                return $filename;
+            }
+        } else {
+            info('nao veio' . $request->avatar);
+
+            $user->update(['avatar' => '']);
+        }
+
+        return null;
     }
 
     protected function json()
@@ -49,6 +85,14 @@ class PutUpdateProfileData extends AuditableAction
     {
         return back()->with([
             'success' => true,
+        ]);
+    }
+
+    protected function inertiaFail()
+    {
+        return back()->withErrors([
+            'success' => false,
+            'message' => 'Erro ao salvar novos dados',
         ]);
     }
 

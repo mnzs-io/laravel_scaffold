@@ -1,5 +1,6 @@
 <?php
 
+use App\Log\AuditLogHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -58,9 +59,9 @@ return [
             'ignore_exceptions' => false,
         ],
         'auditoria' => [
-            'driver' => 'single',
-            'path' => storage_path('logs/audit.log'),
-            'level' => env('LOG_LEVEL', 'debug'),
+            'driver' => 'monolog',
+            'handler' => AuditLogHandler::class,
+            'level' => 'debug',
         ],
         'single' => [
             'driver' => 'single',

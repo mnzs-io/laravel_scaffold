@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { PaginateLink, PaginatedResult } from '@/types/server/laravel';
+import { PaginateLink, PaginatedResult } from '@/types/server/laravel_types';
 import { Link, router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 const props = defineProps<{
@@ -21,14 +21,19 @@ watch(perPage, (newValue) => {
         }),
     );
 });
-</script>
 
+function label(link: PaginateLink): string {
+    if (link.label.includes('Previous')) return 'Anterior';
+    if (link.label.includes('Next')) return 'Próximo';
+    return link.label.replace(/&laquo;|&raquo;/g, '').trim(); // se quiser remover os « »
+}
+</script>
 <template>
     <div
         v-if="result.links.length > 3"
-        class="flex flex-col items-center justify-between gap-4 border-t border-gray-200 bg-white px-4 py-3 sm:flex-row sm:px-6"
+        class="flex flex-col items-center justify-between gap-4 border-t border-zinc-100 bg-white px-4 py-3 sm:flex-row sm:px-6 dark:border-zinc-800 dark:bg-zinc-900"
     >
-        <div class="flex items-center gap-2 text-sm text-gray-700">
+        <div class="flex items-center gap-2 text-sm text-zinc-700 dark:text-zinc-300">
             <span>Mostrando</span>
             <span class="font-medium">{{ result.from }}</span>
             <span>a</span>
@@ -39,7 +44,7 @@ watch(perPage, (newValue) => {
         </div>
 
         <div class="flex items-center gap-2">
-            <label for="perPage" class="text-sm text-gray-700">Itens por página:</label>
+            <label for="perPage" class="text-sm text-zinc-700 dark:text-zinc-300">Itens por página:</label>
             <Select v-model="perPage">
                 <SelectTrigger>
                     <SelectValue :placeholder="perPage.toString()" />
@@ -65,13 +70,13 @@ watch(perPage, (newValue) => {
                 class="relative inline-flex items-center px-4 py-2 text-sm font-medium ring-1 ring-inset"
                 :class="[
                     link.active
-                        ? 'z-10 bg-indigo-600 text-white ring-indigo-600'
+                        ? 'z-10 bg-yellow-600 text-white ring-yellow-600'
                         : link.url
-                          ? 'text-gray-700 ring-gray-300 hover:bg-gray-50'
-                          : 'cursor-default text-gray-400 ring-gray-200',
+                          ? 'text-zinc-700 ring-zinc-300 hover:bg-zinc-50 dark:text-zinc-200 dark:ring-zinc-600 dark:hover:bg-zinc-800'
+                          : 'cursor-default text-zinc-400 ring-zinc-200 dark:text-zinc-500 dark:ring-zinc-700',
                 ]"
             >
-                {{ link.label }}
+                {{ label(link) }}
             </component>
         </nav>
     </div>

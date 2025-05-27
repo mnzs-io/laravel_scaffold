@@ -20,7 +20,7 @@ trait ApiResponses
         ], $statusCode);
     }
 
-    protected function error(string $message, int $statusCode, array $errors = [])
+    protected function error(string $message, int $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR, array $errors = [])
     {
 
         return response()->json([

@@ -186,3 +186,51 @@
 .page-header {
     @apply ml-4 text-xl font-semibold;
 }
+
+.fade-slide-vertical-enter-active,
+.fade-slide-vertical-leave-active {
+    transition:
+        opacity 0.4s,
+        transform 0.4s;
+}
+
+.fade-slide-vertical-enter,
+.fade-slide-vertical-leave-to {
+    opacity: 0;
+    transform: translateY(-5px);
+}
+
+.fade-slide-vertical-enter-to,
+.fade-slide-vertical-leave {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fade-slide-vertical-enter-from {
+    opacity: 0;
+    transform: translateY(5px);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition:
+        opacity 0.4s,
+        transform 0.4s;
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+    transform: translateY(-5px);
+}
+
+.fade-enter-to,
+.fade-leave {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fade-enter-from {
+    opacity: 0;
+    transform: translateY(5px);
+}

@@ -2,12 +2,14 @@
 import { Link } from '@inertiajs/vue3';
 import { useAppStore } from '@/stores/app_store';
 import AppLogoIcon from '@/components/app/AppLogoIcon.vue';
+import AppThemeSelector from '@/components/app/AppThemeSelector.vue';
 
 const app = useAppStore();
 </script>
 
 <template>
     <div class="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
+        <AppThemeSelector class="absolute top-2 right-2" />
         <div class="w-full max-w-sm">
             <div class="flex flex-col gap-8">
                 <div class="flex flex-col items-center gap-4">

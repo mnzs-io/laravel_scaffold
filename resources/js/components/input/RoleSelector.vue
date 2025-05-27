@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RoleWithId } from '@/types/server/laravel';
+import { RoleWithId } from '@/types/server/laravel_types';
 
 defineProps<{
     options: RoleWithId[];

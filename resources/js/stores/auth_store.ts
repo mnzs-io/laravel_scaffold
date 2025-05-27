@@ -1,5 +1,5 @@
 import { SharedData, User } from '@/types';
-import { LaravelRole } from '@/types/server/laravel';
+import { LaravelRole, RoleWithId } from '@/types/server/laravel_types';
 import { usePage } from '@inertiajs/vue3';
 import { defineStore } from 'pinia';
 import { computed, ComputedRef } from 'vue';
@@ -22,7 +22,7 @@ export const useAuthStore = defineStore('auth', () => {
     const avatar: ComputedRef<string> = computed(() => user.value?.avatar || '');
     const name: ComputedRef<string> = computed(() => user.value?.name || '');
     const email: ComputedRef<string> = computed(() => user.value?.email || '');
-    const roles: ComputedRef<LaravelRole[]> = computed(() => user.value?.roles || '');
+    const roles: ComputedRef<LaravelRole[] | RoleWithId[]> = computed(() => user.value?.roles || '');
     const initials: ComputedRef<string> = computed(() => getInitials(user.value?.name || ''));
     const isLoggedIn = computed(() => !!user.value);
 

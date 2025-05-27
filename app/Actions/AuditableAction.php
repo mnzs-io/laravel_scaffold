@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Enums\AuditLogType;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\Log;
@@ -33,17 +34,27 @@ abstract class AuditableAction extends Controller
             }
 
             $user = Context::get('user');
-            Log::channel('auditoria')->{$level}(json_encode([
-                'header' => $auditText,
+
+            $data = array_merge($data, ['user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+            ]]);
+
+            Log::channel('auditoria')->{$level}($auditText, [
+                'class' => $class,
+                'type' => 'audit',
                 'data' => $data,
-                'user' => [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                ],
-            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+            ]);
 
         } catch (Throwable $e) {
-            info('Erro ao logar em auditoria: ' . $e->getMessage());
+            Log::channel('auditoria')->error('Erro ao atualizar dados de usuário', [
+                'class' => get_class(),
+                'type' => AuditLogType::EXCEPTION,
+                'data' => [
+                    'exception' => $e->getMessage(),
+                ],
+            ]);
+            throw $e;
         }
     }
 }

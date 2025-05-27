@@ -16,6 +16,7 @@ class UpdateUserProfileDataRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'avatar' => ['nullable', 'string'],
             'email' => ['required', 'string', 'email', 'max:255',  Rule::unique('users', 'email')->ignore($this->user, 'id')],
         ];
     }
@@ -26,7 +27,7 @@ class UpdateUserProfileDataRequest extends FormRequest
             'name.required' => 'O nome é obrigatório.',
             'name.string' => 'O nome deve ser um texto.',
             'name.max' => 'O nome não pode ter mais que 255 caracteres.',
-
+            'avatar.string' => 'A imagem não é válida.',
             'email.required' => 'O e-mail é obrigatório.',
             'email.string' => 'O e-mail deve ser um texto.',
             'email.email' => 'O e-mail deve ser um endereço de e-mail válido.',

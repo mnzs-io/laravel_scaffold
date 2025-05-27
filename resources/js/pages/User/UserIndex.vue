@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { User } from '@/types';
-import { PaginatedResult } from '@/types/server/laravel';
+import { PaginatedResult } from '@/types/server/laravel_types';
 import { ref, Ref } from 'vue';
 import UserForm from './Fragments/UserForm.vue';
 import UsersTable from './Fragments/UsersTable.vue';

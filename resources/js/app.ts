@@ -13,6 +13,7 @@ const pinia = createPinia();
 
 // ⚠️
 import { todo } from './plugins/todo';
+import { getUserImage } from './plugins/user_image.js';
 
 // 🌙 | ☀️
 import AppLayout from './layouts/AppLayout.vue';
@@ -36,6 +37,7 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(todo)
+            .use(getUserImage)
             .use(pinia)
             .use(ZiggyVue)
             .mount(el);

@@ -1,23 +1,30 @@
 <script setup lang="ts">
 import InputError from '@/components/input/InputError.vue';
+import AvatarEdit from '@/components/profile/AvatarEdit.vue';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useFlashMessages } from '@/composables/useFlashMessage';
 import { useAuthStore } from '@/stores/auth_store';
-import { useForm } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
 
 const flash = useFlashMessages();
 
-const { user } = useAuthStore();
+const { user, initials } = useAuthStore();
 const currentData = { ...user };
 const form = useForm({
+    avatar: currentData.avatar
+        ? route('get.user.image', {
+              filename: currentData.avatar,
+          })
+        : '',
     name: currentData.name,
     email: currentData.email,
 });
 
 const submit = () => {
+    console.log('submit');
     form.put(
         route('put.profile.data', {
             user: user.id,
@@ -25,10 +32,13 @@ const submit = () => {
         {
             preserveState: true,
             onSuccess() {
+                console.log('onSuccess');
                 flash.success('Dados alterados com sucesso!');
+                router.reload();
             },
-            onError() {
-                flash.error('Erro ao alterar dados.');
+            onError(e) {
+                console.log('onError', e);
+                flash.error(e.message, 'Erro ao alterar dados.');
             },
         },
     );
@@ -39,6 +49,13 @@ const submit = () => {
     <Card class="col-span-1 grid auto-rows-min gap-6 p-4">
         <form @submit.prevent="submit" class="grid grid-cols-1 place-content-start gap-4">
             <h2 class="text-lg font-semibold">Alterar dados</h2>
+
+            <!-- Avatar -->
+            <div class="grid gap-2">
+                <Label for="name">Avatar</Label>
+                <AvatarEdit v-model="form.avatar" :initials="initials" :currentSavedImage="$getUserImage(user.avatar)" />
+                <InputError v-if="form.errors.name">{{ form.errors.name }}</InputError>
+            </div>
 
             <!-- Nome -->
             <div class="grid gap-2">

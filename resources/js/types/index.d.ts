@@ -1,7 +1,7 @@
 import type { PageProps } from '@inertiajs/core';
 import type { LucideIcon } from 'lucide-vue-next';
 import type { Config } from 'ziggy-js';
-import { LaravelRole } from './server/laravel';
+import { LaravelRole, RoleWithId } from './server/laravel_types';
 
 export interface BreadcrumbItem {
     title: string;
@@ -44,11 +44,11 @@ export interface User {
     name: string;
     email: string;
     active: boolean;
-    avatar?: string;
+    avatar: string;
     email_verified_at: string | null;
     created_at: string | null;
     updated_at: string | null;
-    roles: LaravelRole[];
+    roles: LaravelRole[] | RoleWithId[];
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;

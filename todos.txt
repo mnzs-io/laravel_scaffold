@@ -1,0 +1,9 @@
+Mail igual do laracasts
+
+Sentry
+
+Logs com mongo atlas
+
+Testes
+
+Básico de app mobile com flutter

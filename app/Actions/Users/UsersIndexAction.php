@@ -21,16 +21,21 @@ class UsersIndexAction extends Controller
 
     protected function inertia(Request $request)
     {
-        $perPage = $request->input('per_page', 10);
+        $perPage = $request->input('per_page', 6);
 
         return Inertia::render('User/UserIndex', [
             'result' => User::with('roles')->paginate($perPage)->withQueryString()->through(function ($user) {
                 return [
                     'id' => $user->id,
                     'name' => $user->name,
+                    'avatar' => $user->avatar,
+                    'force_password_reset' => $user->force_password_reset,
                     'active' => $user->active,
                     'email' => $user->email,
-                    'roles' => $user->roles->pluck('name'),
+                    'roles' => $user->roles->map(fn ($role) => [
+                        'id' => $role->id,
+                        'name' => $role->name,
+                    ]),
                 ];
             }),
             'roles' => Role::all()->pluck('name', 'id'),

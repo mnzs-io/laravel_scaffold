@@ -1,7 +1,7 @@
 import { NavGroup, NavItem, User } from '@/types';
-import { LaravelRole, Roles } from '@/types/server/laravel';
+import { LaravelRole, Roles } from '@/types/server/laravel_types';
 
-import { User2, Users2 } from 'lucide-vue-next';
+import { Logs, User2, Users2 } from 'lucide-vue-next';
 export function useNav() {
     const main: NavGroup[] = [
         {
@@ -13,6 +13,19 @@ export function useNav() {
                 {
                     title: 'Lista',
                     href: route('get.users.index'),
+                    roles: [Roles.ADMIN],
+                },
+            ],
+        },
+        {
+            title: 'Logs',
+            slug: '/logs',
+            icon: Logs,
+            roles: [Roles.ADMIN],
+            items: [
+                {
+                    title: 'Lista',
+                    href: route('get.logs.index'),
                     roles: [Roles.ADMIN],
                 },
             ],
