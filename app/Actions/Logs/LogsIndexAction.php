@@ -45,7 +45,7 @@ class LogsIndexAction extends Controller
             ->withQueryString();
 
         return Inertia::render('Log/LogIndex', [
-            'logs' => $logs,
+            'result' => $logs,
             'filters' => $filters,
         ]);
     }

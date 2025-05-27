@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import { Eye } from 'lucide-vue-next';
 
 defineProps<{
-    logs: PaginatedResult<LogEntry>;
+    result: PaginatedResult<LogEntry>;
 }>();
 
 const emit = defineEmits(['selected']);
@@ -38,7 +38,7 @@ function formatDate(timestamp: number) {
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-700">
-                            <tr v-for="log in logs.data" :key="log._id">
+                            <tr v-for="log in result.data" :key="log._id">
                                 <td class="px-4 py-3 text-sm whitespace-nowrap">{{ log.user }}</td>
                                 <td class="px-4 py-3 text-sm whitespace-nowrap">{{ log.system }}</td>
                                 <td class="px-4 py-3 text-sm whitespace-nowrap capitalize">{{ log.type }}</td>
@@ -56,7 +56,7 @@ function formatDate(timestamp: number) {
                 </div>
             </div>
         </div>
-        <Pagination :result="logs" />
+        <Pagination route="get.logs.index" :result />
     </div>
 </template>
 

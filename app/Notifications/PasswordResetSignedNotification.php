@@ -42,7 +42,8 @@ class PasswordResetSignedNotification extends Notification implements ShouldQueu
         return (new MailMessage)
             ->subject('Redefinição de Senha')
             ->line('Caro, ' . $this->user->name . ', clique no botão abaixo para redefinir sua senha. O link é válido por 30 minutos.')
-            ->action('Redefinir Senha', $url)
+            // ->line('![Imagem ilustrativa](' . asset('img/logo.png') . ')')
+            ->action('Redefinir Senha!!!!!', $url)
             ->line('Se você não solicitou isso, ignore este e-mail.');
     }
 }

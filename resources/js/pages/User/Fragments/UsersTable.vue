@@ -100,7 +100,7 @@ function select(user: User) {
                 </div>
             </div>
         </div>
-        <Pagination :result />
+        <Pagination route="get.users.index" :result />
     </div>
 </template>
 

@@ -13,7 +13,7 @@ import LogDetails from './Components/LogDetails.vue';
 
 const props = withDefaults(
     defineProps<{
-        logs: PaginatedResult<LogEntry>;
+        result: PaginatedResult<LogEntry>;
         filters: {
             tipo: string;
             nivel: string;
@@ -80,7 +80,7 @@ function submit() {
         preserveScroll: true,
         preserveState: true,
         replace: true,
-        only: ['logs'],
+        only: ['result'],
         onStart() {
             loading.value = true;
         },
@@ -118,6 +118,6 @@ function mudarPagina(novaPagina: number) {
             </span>
         </form>
         <LogDetails :log="logSelecionado" @close="unselect" />
-        <LogsTable :logs />
+        <LogsTable :result />
     </div>
 </template>

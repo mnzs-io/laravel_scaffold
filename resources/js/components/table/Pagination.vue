@@ -5,6 +5,7 @@ import { Link, router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 const props = defineProps<{
     result: PaginatedResult<any>;
+    route: string;
 }>();
 
 const perPage = ref(props.result.per_page || 10);
@@ -16,7 +17,7 @@ function resolveComponent(link: PaginateLink) {
 watch(perPage, (newValue) => {
     console.log(newValue);
     router.visit(
-        route('get.users.index', {
+        route(props.route, {
             per_page: newValue,
         }),
     );
