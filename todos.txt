@@ -1,9 +1,5 @@
-Mail igual do laracasts
-
-Sentry
-
 Logs com mongo atlas
-Falta listar e detalhar
+    - Falta listar e detalhar
 
 Testes
 

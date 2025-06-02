@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { useFlashMessages } from '@/composables/useFlashMessage';
 import { LogEntry } from '@/types/log_entry';
 import { PaginatedResult } from '@/types/server/laravel_types';
 import { Head, useForm } from '@inertiajs/vue3';
-import { computed, Ref, ref, watch } from 'vue';
+import { Ref, ref } from 'vue';
 import LogsTable from '../User/Fragments/LogsTable.vue';
 import LogDetails from './Components/LogDetails.vue';
+import LogLevelSelect from './Components/Selects/LogLevelSelect.vue';
+import LogTypeSelect from './Components/Selects/LogTypeSelect.vue';
 
 // Define os tipos para os dados do log
 
@@ -52,26 +55,16 @@ function unselect() {
 }
 
 const form = useForm({
-    sistema: props.filters.sistema,
     tipo: props.filters.tipo,
     nivel: props.filters.nivel,
     usuario: props.filters.usuario,
-    referencia: props.filters.referencia,
     page: 1,
 });
 
-const formValues = computed(() => {
-    return [form.sistema, form.tipo, form.nivel, form.usuario, form.page, form.referencia];
-});
-
-watch(formValues, submit, { deep: true });
-
 function reset() {
-    form.sistema = '';
     form.tipo = '';
     form.nivel = '';
     form.usuario = '';
-    form.referencia = '';
     form.page = 1;
 }
 
@@ -89,34 +82,34 @@ function submit() {
         },
     });
 }
-
-function mudarPagina(novaPagina: number) {
-    form.page = novaPagina;
-}
 </script>
 
 <template>
     <div class="w-full flex-1">
         <Head title="Logs de Negócio" />
         <h1 class="pageTitle">Logs de Negócio</h1>
-        <form class="my-6 grid grid-cols-6 items-end gap-4" @submit.prevent="submit">
-            <Select v-model="form.nivel" :items="niveisLog" label="Nível" placeholder="Selecione um tipo" all-options />
-            <Select v-model="form.tipo" :items="tiposLog" label="Tipo" placeholder="Selecione um tipo" all-options />
-            <Select v-model="form.sistema" :items="sistemasLog" label="Sistema" placeholder="Selecione um sistema" all-options />
-            <Input v-model.lazy="form.usuario" label="Usuário (identidade)" placeholder="Ex.: 0123456789" />
-            <Input v-model.lazy="form.referencia" label="referencia (tabela#id)" placeholder="Ex.: sucem2.universo#123" />
-            <span class="flex items-center space-x-2">
-                <Button class="min-w-24 justify-self-start" :disabled="form.processing">
-                    <Transition mode="out-in" name="fade-slide-vertical">
-                        <span v-if="form.processing">
-                            <DcemLoading :with-icon="false" spin-color="gray" :size="8" />
-                        </span>
-                        <span v-else>Buscar</span>
-                    </Transition>
-                </Button>
-                <Button type="button" variant="link" class="ml-2 justify-self-start" @click="reset" :disabled="form.processing">Reset</Button>
-            </span>
-        </form>
+        <div class="mx-auto w-full max-w-7xl items-center justify-center sm:px-6 lg:px-8">
+            <form class="my-6 grid grid-cols-2 items-center justify-stretch gap-4 lg:grid-cols-4" @submit.prevent="submit">
+                <LogLevelSelect />
+                <LogTypeSelect />
+                <div class="!-mt-2 flex flex-col justify-end space-y-2">
+                    <Label>Usuário (e-mail)</Label>
+                    <Input v-model.lazy="form.usuario" label="Usuário (identidade)" placeholder="Ex.: cliente@gmail.com" />
+                </div>
+                <span class="flex items-center space-x-2">
+                    <Button class="min-w-24 justify-self-start" :disabled="form.processing">
+                        <Transition mode="out-in" name="fade-slide-vertical">
+                            <span v-if="form.processing">
+                                <DcemLoading :with-icon="false" spin-color="gray" :size="8" />
+                            </span>
+                            <span v-else>Buscar</span>
+                        </Transition>
+                    </Button>
+                    <Button type="button" variant="link" class="ml-2 justify-self-start" @click="reset" :disabled="form.processing">Reset</Button>
+                </span>
+            </form>
+        </div>
+
         <LogDetails :log="logSelecionado" @close="unselect" />
         <LogsTable :result />
     </div>

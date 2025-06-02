@@ -31,7 +31,7 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
         if ($user) {
-            Context::add('user', $user->load('roles'));
+            Context::add('user', $user->pluck('email', 'id'));
         }
 
         return [

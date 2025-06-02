@@ -14,11 +14,7 @@ const flash = useFlashMessages();
 const { user, initials } = useAuthStore();
 const currentData = { ...user };
 const form = useForm({
-    avatar: currentData.avatar
-        ? route('get.user.image', {
-              filename: currentData.avatar,
-          })
-        : '',
+    avatar: currentData.avatar ? currentData.avatar : '',
     name: currentData.name,
     email: currentData.email,
 });
@@ -53,7 +49,7 @@ const submit = () => {
             <!-- Avatar -->
             <div class="grid gap-2">
                 <Label for="name">Avatar</Label>
-                <AvatarEdit v-model="form.avatar" :initials="initials" :currentSavedImage="$getUserImage(user.avatar)" />
+                <AvatarEdit v-model="form.avatar" :initials="initials" :currentSavedImage="user.avatar" />
                 <InputError v-if="form.errors.name">{{ form.errors.name }}</InputError>
             </div>
 

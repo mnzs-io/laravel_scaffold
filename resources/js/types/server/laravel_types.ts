@@ -62,3 +62,12 @@ export interface PaginateLink {
     label: string;
     active: boolean;
 }
+
+export interface Settings {
+    id: number;
+    group: string;
+    type: string;
+    key: string;
+    label: string;
+    value: string | boolean;
+}

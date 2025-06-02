@@ -99,7 +99,7 @@ return [
 
         'mongodb' => [
             'driver' => 'mongodb',
-            'dsn' => env('MONGO_CONNECTION_STRING'),
+            'dsn' => env('MONGODB_URI'),
             'database' => env('MONGO_DATABASE', 'logs'),
         ],
 

@@ -2,9 +2,9 @@
 
 namespace App\Actions\Auth;
 
+use App\Events\Auth\PasswordResetRequestedEvent;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Notifications\PasswordResetSignedNotification;
 use App\Tools\FlashMessage;
 use App\Traits\HybridResponse;
 use Illuminate\Http\Request;
@@ -33,7 +33,8 @@ class PostForgotPasswordAction extends Controller
         if (!$user) {
             usleep(random_int(300_000, 600_000));
         } else {
-            $user->notify(new PasswordResetSignedNotification($user));
+
+            PasswordResetRequestedEvent::dispatch($user);
         }
 
         FlashMessage::success('Se houver uma conta com esse e-mail associado você receberá um e-mail de redefinição de senha', 'Pedido recebido');

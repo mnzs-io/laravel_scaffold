@@ -1,9 +1,9 @@
 import { createInertiaApp } from '@inertiajs/vue3';
+import * as Sentry from '@sentry/vue';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import './bootstrap.ts';
-
 // 🧭
 import { ZiggyVue } from 'ziggy-js';
 
@@ -13,7 +13,6 @@ const pinia = createPinia();
 
 // ⚠️
 import { todo } from './plugins/todo';
-import { getUserImage } from './plugins/user_image.js';
 
 // 🌙 | ☀️
 import AppLayout from './layouts/AppLayout.vue';
@@ -34,13 +33,19 @@ createInertiaApp({
         });
     },
     setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
+        const app = createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(todo)
-            .use(getUserImage)
             .use(pinia)
-            .use(ZiggyVue)
-            .mount(el);
+            .use(ZiggyVue);
+
+        Sentry.init({
+            app,
+            dsn: 'https://cc348c4b4f007f4ba2105e17d0656808@o4509392626188288.ingest.us.sentry.io/4509392627367937',
+            sendDefaultPii: true,
+            integrations: [],
+        });
+        app.mount(el);
     },
     progress: {
         color: PROGRESS_COLOR,

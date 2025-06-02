@@ -11,6 +11,8 @@ import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
+import GithubButton from './Components/GithubButton.vue';
+import GoogleButton from './Components/GoogleButton.vue';
 
 defineProps<{
     register_enabled: boolean;
@@ -78,6 +80,8 @@ const submit = () => {
                 </Label>
             </div> -->
 
+            <a :href="route('get.auth.github.login')"> Login com github </a>
+
             <Button type="submit" class="mt-4 w-full" :tabindex="4" :disabled="form.processing">
                 <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
                 Entrar
@@ -93,6 +97,22 @@ const submit = () => {
             >
                 Cadastre-se
             </Link>
+        </div>
+
+        <div>
+            <div class="relative mt-10">
+                <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="w-full border-t" />
+                </div>
+                <div class="relative flex justify-center text-sm/6 font-medium">
+                    <span class="px-6">Ou continue com</span>
+                </div>
+            </div>
+
+            <div class="mt-6 grid grid-cols-2 gap-4">
+                <GoogleButton />
+                <GithubButton />
+            </div>
         </div>
     </form>
 </template>

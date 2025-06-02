@@ -54,7 +54,7 @@ const rolesWithId = computed(() => {
                 <div>
                     <Label class="mb-1 cursor-pointer" for="avatar">Avatar</Label>
                     <Avatar class="h-8 w-8 rounded-lg">
-                        <AvatarImage :src="$getUserImage(user?.avatar || '')" :alt="user?.name" />
+                        <AvatarImage :src="user?.avatar || ''" :alt="user?.name" />
                         <AvatarFallback class="rounded-lg">
                             {{ getInitials(user?.name) }}
                         </AvatarFallback>

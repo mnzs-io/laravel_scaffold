@@ -34,7 +34,7 @@ class LogsIndexAction extends Controller
         $page = (int) $request->input('page', 1);
 
         $query = LogEntry::query()
-            ->when($filters['system'], fn ($q, $v) => $q->where('system', $v))
+            ->where('system', config('app.log.key'))
             ->when($filters['level'], fn ($q, $v) => $q->where('level', $v))
             ->when($filters['type'], fn ($q, $v) => $q->where('type', $v))
             ->when($filters['user'], fn ($q, $v) => $q->where('user', $v))

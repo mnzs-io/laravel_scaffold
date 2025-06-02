@@ -2,6 +2,8 @@
 
 @source inline("{text,bg,border,dark:text,dark:bg,dark:border}-{red,blue,green,yellow,purple,orange,gray}-{100,200,300,400,500,600,700,800}");
 
+@source inline("{border-t}-{red,blue,green,yellow,purple,orange,gray}-{400}");
+
 @import 'tw-animate-css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -76,6 +78,17 @@
     ::backdrop,
     ::file-selector-button {
         border-color: var(--color-gray-200, currentColor);
+    }
+    html {
+        font-size: 18px;
+    }
+
+    * {
+        @apply border-border outline-ring/50;
+    }
+
+    body {
+        @apply bg-background text-foreground;
     }
 }
 
@@ -233,4 +246,8 @@
 .fade-enter-from {
     opacity: 0;
     transform: translateY(5px);
+}
+
+a.active {
+    @apply font-semibold underline;
 }

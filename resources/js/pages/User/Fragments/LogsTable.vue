@@ -17,7 +17,7 @@ function select(log: LogEntry) {
 }
 
 function formatDate(timestamp: number) {
-    return format(new Date(timestamp * 1000), 'dd/MM/yyyy HH:mm:ss');
+    return format(new Date(timestamp), 'dd/MM/yyyy HH:mm:ss');
 }
 </script>
 
@@ -29,6 +29,7 @@ function formatDate(timestamp: number) {
                     <table class="min-w-full divide-y divide-zinc-300 dark:divide-zinc-800">
                         <thead>
                             <tr>
+                                <th scope="col" class="px-4 py-3 text-left text-sm font-semibold">Evento</th>
                                 <th scope="col" class="px-4 py-3 text-left text-sm font-semibold">User</th>
                                 <th scope="col" class="px-4 py-3 text-left text-sm font-semibold">System</th>
                                 <th scope="col" class="px-4 py-3 text-left text-sm font-semibold">Type</th>
@@ -39,10 +40,18 @@ function formatDate(timestamp: number) {
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-700">
                             <tr v-for="log in result.data" :key="log._id">
-                                <td class="px-4 py-3 text-sm whitespace-nowrap">{{ log.user }}</td>
+                                <td class="px-4 py-3 text-sm whitespace-nowrap">
+                                    <p class="font-semibold">{{ log.description }}</p>
+                                </td>
+                                <td class="px-4 py-3 text-sm whitespace-nowrap">
+                                    <div class="flex flex-col items-start justify-start">
+                                        <p>{{ log.user.name }}</p>
+                                        <p class="text-sm font-thin">{{ log.user.email }}</p>
+                                    </div>
+                                </td>
                                 <td class="px-4 py-3 text-sm whitespace-nowrap">{{ log.system }}</td>
                                 <td class="px-4 py-3 text-sm whitespace-nowrap capitalize">{{ log.type }}</td>
-                                <td class="px-4 py-3 text-sm whitespace-nowrap uppercase">{{ log.level }}</td>
+                                <td class="px-4 py-3 text-sm whitespace-nowrap capitalize">{{ log.level }}</td>
                                 <td class="px-4 py-3 text-sm whitespace-nowrap">{{ formatDate(log.timestamp) }}</td>
                                 <td class="px-4 py-3 text-end whitespace-nowrap">
                                     <Button variant="outline" @click="() => select(log)">

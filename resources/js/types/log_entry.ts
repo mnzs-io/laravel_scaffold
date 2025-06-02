@@ -50,7 +50,11 @@ export interface LogEntry<T extends LogType = LogType> {
     description: string;
     level: LogLevel;
     type: T;
-    user: string;
+    user: {
+        id: string;
+        name: string;
+        email: string;
+    };
     ip: string | null;
     resources: Resource[];
     timestamp: number;

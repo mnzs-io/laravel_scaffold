@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Contracts\Payment\PaymentCustomer;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Stringable;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements PaymentCustomer
 {
     use HasFactory, HasRoles, HasUuids, Notifiable;
 
@@ -25,6 +26,7 @@ class User extends Authenticatable
         'password',
         'avatar',
         'force_password_reset',
+        'github_id',
     ];
 
     protected $hidden = [

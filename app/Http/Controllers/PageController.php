@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Settings;
 use Inertia\Inertia;
 
 class PageController extends Controller
@@ -15,7 +16,9 @@ class PageController extends Controller
 
     public function welcome()
     {
-        return Inertia::render('Welcome');
+        return Inertia::render('Welcome', [
+            'register_enabled' => Settings::test('REGISTER_ENABLED'),
+        ]);
     }
 
     public function profile()

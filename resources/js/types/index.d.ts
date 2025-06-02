@@ -12,6 +12,7 @@ export interface NavGroup {
     title: string;
     slug: string;
     href?: string;
+    url?: string;
     icon: LucideIcon;
     isActive?: boolean;
     roles: Roles[] | '*' | 'none';
@@ -22,6 +23,7 @@ export interface NavGroup {
 export interface NavItem {
     title: string;
     href: string;
+    url: string;
     icon?: LucideIcon;
     isActive?: boolean;
     roles: Roles[] | '*' | 'none';

@@ -3,14 +3,15 @@
 use App\Actions\Logs\LogsIndexAction;
 use App\Http\Controllers\PageController;
 use App\Models\LogEntry;
-use Illuminate\Support\Facades\Route;
 
-Route::middleware('web.authenticated')->group(function () {
+use function App\Support\{get, middleware};
 
-    Route::get('/logs/lista', LogsIndexAction::class)
+middleware('web.authenticated', function () {
+
+    get('/logs/lista', LogsIndexAction::class)
         ->can('viewAny', LogEntry::class)
         ->name('get.logs.index');
 
-    Route::get('/log', [PageController::class, 'log']);
+    get('/log', [PageController::class, 'log']);
 
 });

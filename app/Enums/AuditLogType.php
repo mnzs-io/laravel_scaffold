@@ -4,16 +4,22 @@ namespace App\Enums;
 
 enum AuditLogType: string
 {
-    case NORMAL = 'normal';
-    case BEFORE_AFTER = 'before_after';
-    case EXCEPTION = 'exception';
+    case RAW = 'raw';
+    case BEFORE_AFTER = 'beforeAfter';
+    case REMOVE = 'remove';
+    case INSERT = 'insert';
+    case EVENT = 'event';
+    case READ = 'read';
 
     public function label(): string
     {
         return match ($this) {
-            self::NORMAL => 'Normal',
+            self::RAW => 'Bruto',
             self::BEFORE_AFTER => 'Antes/Depois',
-            self::EXCEPTION => 'Exceção',
+            self::REMOVE => 'Remoção',
+            self::EVENT => 'Evento',
+            self::INSERT => 'Inserção',
+            self::READ => 'Leitura',
         };
     }
 }

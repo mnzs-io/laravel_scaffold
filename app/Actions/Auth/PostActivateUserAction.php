@@ -2,16 +2,15 @@
 
 namespace App\Actions\Auth;
 
-use App\Actions\AuditableAction;
+use App\Events\UserActivationEvent;
 use App\Models\User;
-use App\Notifications\UserActivationNotification;
 use App\Tools\FlashMessage;
 use App\Traits\ApiResponses;
 use App\Traits\HybridResponse;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-class PostActivateUserAction extends AuditableAction
+class PostActivateUserAction
 {
     use ApiResponses, HybridResponse;
 
@@ -21,7 +20,7 @@ class PostActivateUserAction extends AuditableAction
     {
         // TODO: LOg de auditoria
         if ($user->id === request()->user()->id) {
-            $this->audit($user, $user, false);
+            // $this->audit($user, $user, false);
             FlashMessage::warning('Você não pode solicitar ativação da própria conta');
 
             return back();
@@ -33,8 +32,7 @@ class PostActivateUserAction extends AuditableAction
             DB::commit();
             $user->active = true;
             $user->save();
-            $this->audit(request()->user, $user, true);
-            $user->notify(new UserActivationNotification($user));
+            UserActivationEvent::dispatch($user);
             FlashMessage::success('Ativação realizada. O usuário será notificado');
 
             return back();
@@ -55,19 +53,6 @@ class PostActivateUserAction extends AuditableAction
     {
         return back()->with([
             'success' => true,
-        ]);
-    }
-
-    protected function audit(...$args): void
-    {
-        $solicitante = $args[0];
-        $alvo = $args[1];
-        $realizado = $args[2];
-
-        parent::log(get_class(), "Admin ({$solicitante->id}) solicitando reset de senha do usuário ({$alvo->id})", [
-            'solicitante' => $solicitante,
-            'alvo' => $alvo,
-            'realizado' => $realizado,
         ]);
     }
 }

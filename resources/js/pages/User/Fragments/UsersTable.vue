@@ -40,7 +40,7 @@ function select(user: User) {
                                 <td class="py-5 pr-3 pl-4 text-sm whitespace-nowrap sm:pl-0">
                                     <div class="flex items-center">
                                         <Avatar class="h-8 w-8 rounded-lg">
-                                            <AvatarImage :src="$getUserImage(user.avatar || '')" :alt="user.name" />
+                                            <AvatarImage :src="user.avatar || ''" :alt="user.name" />
                                             <AvatarFallback class="rounded-lg">
                                                 {{ getInitials(user.name) }}
                                             </AvatarFallback>

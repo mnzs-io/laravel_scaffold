@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\AuditLogLevel;
+use App\Enums\AuditLogType;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use MongoDB\Laravel\Eloquent\Model;
@@ -10,7 +13,10 @@ class LogEntry extends Model
 {
     protected $connection = 'mongodb';
 
-    protected $table = 'base_inertia';
+    public function getTable()
+    {
+        return $this->table ?? config('app.log.collection');
+    }
 
     public $timestamps = false;
 
@@ -28,18 +34,18 @@ class LogEntry extends Model
     ];
 
     protected $casts = [
-        'timestamp' => 'integer',
+        'timestamp' => 'immutable_datetime',
     ];
 
     protected string $system = '';
 
     protected string $description = 'log';
 
-    protected string $level = 'info';
+    protected AuditLogLevel $level = AuditLogLevel::INFO;
 
-    protected string $type = 'raw';
+    protected AuditLogType $type = AuditLogType::RAW;
 
-    protected string $user = '';
+    protected array $user;
 
     protected ?string $ip = null;
 
@@ -49,12 +55,12 @@ class LogEntry extends Model
 
     protected ?string $file = null;
 
-    protected int $timestamp;
+    protected ?Carbon $timestamp;
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->timestamp = time();
+        $this->timestamp = now();
         $this->ip = Request::ip();
     }
 
@@ -98,9 +104,9 @@ class LogEntry extends Model
     }
 
     // Métodos fluentes
-    public function system(string $value): static
+    public function system(?string $value): static
     {
-        $this->system = $value;
+        $this->system = $value ? $value : config('app.log.key');
 
         return $this;
     }
@@ -112,16 +118,20 @@ class LogEntry extends Model
         return $this;
     }
 
-    public function level(string $value): static
+    public function level(AuditLogLevel $value): static
     {
-        $this->level = strtolower($value);
+        $this->level = $value;
 
         return $this;
     }
 
-    public function user(string $value): static
+    public function user(User $user): static
     {
-        $this->user = $value;
+        $this->user = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+        ];
 
         return $this;
     }
@@ -143,7 +153,7 @@ class LogEntry extends Model
     // Métodos para tipos de log
     public function raw(string $message): static
     {
-        $this->type = 'raw';
+        $this->type = AuditLogType::RAW;
         $this->data = ['message' => $message];
 
         return $this;
@@ -151,7 +161,7 @@ class LogEntry extends Model
 
     public function insert(array $after): static
     {
-        $this->type = 'insert';
+        $this->type = AuditLogType::INSERT;
         $this->data = ['after' => $after];
 
         return $this;
@@ -159,15 +169,23 @@ class LogEntry extends Model
 
     public function beforeAfter(array $before, array $after): static
     {
-        $this->type = 'update';
+        $this->type = AuditLogType::BEFORE_AFTER;
         $this->data = ['before' => $before, 'after' => $after];
+
+        return $this;
+    }
+
+    public function event(string $key, array $data): static
+    {
+        $this->type = AuditLogType::EVENT;
+        $this->data = array_merge(['event' => $key], $data);
 
         return $this;
     }
 
     public function remove(array $before): static
     {
-        $this->type = 'delete';
+        $this->type = AuditLogType::REMOVE;
         $this->data = ['before' => $before];
 
         return $this;
@@ -175,32 +193,32 @@ class LogEntry extends Model
 
     public function read(array $profiles, string $reason = 'not informed'): static
     {
-        $this->type = 'read';
+        $this->type = AuditLogType::READ;
         $this->data = ['profiles' => $profiles, 'reason' => $reason];
 
         return $this;
     }
 
-    // Método para salvar o log
-    public function saveLog(): bool
+    public function commit(): bool
     {
-        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1] ?? null;
-        $this->file = isset($trace['file']) ? $trace['file'] . ':' . $trace['line'] : null;
+
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[0] ?? null;
+        $this->file = isset($trace['file'])
+        ? str_replace(base_path() . '/', '', $trace['file']) . ':' . $trace['line']
+        : null;
 
         $this->fill([
-            'system' => $this->system,
+            'system' => $this->system ? $this->system : config('app.log.key'),
             'description' => $this->description,
             'level' => $this->level,
             'type' => $this->type,
             'user' => $this->user,
             'ip' => $this->ip,
             'resources' => $this->resources,
-            'timestamp' => $this->timestamp,
+            'timestamp' => $this->timestamp ? $this->timestamp : now(),
             'data' => $this->data,
             'file' => $this->file,
         ]);
-
-        // Forçar a conversão para array antes de salvar
         $this->attributes['resources'] = $this->ensureArray($this->resources);
         $this->attributes['data'] = $this->ensureArray($this->data);
 

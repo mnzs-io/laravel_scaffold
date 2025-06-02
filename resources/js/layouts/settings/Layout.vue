@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Heading from '@/components/Heading.vue';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { type NavItem } from '@/types';
@@ -9,14 +8,20 @@ const sidebarNavItems: NavItem[] = [
     {
         title: 'Profile',
         href: '/settings/profile',
+        url: '/settings/profile',
+        roles: '*',
     },
     {
         title: 'Password',
         href: '/settings/password',
+        url: '/settings/password',
+        roles: '*',
     },
     {
         title: 'Appearance',
         href: '/settings/appearance',
+        url: '/settings/appearance',
+        roles: '*',
     },
 ];
 

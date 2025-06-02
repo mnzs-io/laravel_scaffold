@@ -48,7 +48,6 @@ function resetImage() {
 
 <template>
     <input type="file" accept="image/*" class="hidden" ref="fileInput" @change="onFileChange" />
-    {{ model }}
     <Avatar class="group size-16 cursor-pointer rounded-lg" @click="fileInput?.click()">
         <Transition name="fade">
             <XIcon

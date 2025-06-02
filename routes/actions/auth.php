@@ -6,24 +6,38 @@ use App\Actions\Auth\PostLogoutAction;
 use App\Actions\Auth\PostRegisterAction;
 use App\Actions\Auth\PostResetPasswordAction;
 use App\Http\Controllers\AuthController;
-use Illuminate\Support\Facades\Route;
 
-Route::middleware('web.guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'login'])->name('get.auth.login');
-    Route::post('/login', PostLoginAction::class)->name('post.auth.login');
+use function App\Support\get;
+use function App\Support\middleware;
+use function App\Support\post;
 
-    Route::post('/logout', PostLogoutAction::class)->name('post.auth.logout');
+middleware('web.guest', function () {
 
-    Route::get('/register', [AuthController::class, 'register'])->name('get.auth.register');
-    Route::post('/register', PostRegisterAction::class)->name('post.auth.register');
+    get('/login', [AuthController::class, 'login'])
+        ->name('get.auth.login');
+    post('/login', PostLoginAction::class)
+        ->name('post.auth.login');
 
-    Route::get('/esqueci-a-senha', [AuthController::class, 'forgotPassword'])->name('get.auth.forgot-password');
-    Route::post('/forgot-password', PostForgotPasswordAction::class)->name('post.auth.forgot-password');
+    post('/logout', PostLogoutAction::class)
+        ->name('post.auth.logout');
 
-    Route::get('/trocar-senha', [AuthController::class, 'resetPassword'])->name('get.password.reset.signed');
-    Route::post('/trocar-senha/submit', PostResetPasswordAction::class)->name('post.password.reset.signed');
+    get('/register', [AuthController::class, 'register'])
+        ->name('get.auth.register');
+    post('/register', PostRegisterAction::class)
+        ->name('post.auth.register');
+
+    get('/esqueci-a-senha', [AuthController::class, 'forgotPassword'])
+        ->name('get.auth.forgot-password');
+    post('/forgot-password', PostForgotPasswordAction::class)
+        ->name('post.auth.forgot-password');
+
+    get('/trocar-senha', [AuthController::class, 'resetPassword'])
+        ->name('get.password.reset.signed');
+    post('/trocar-senha/submit', PostResetPasswordAction::class)
+        ->name('post.password.reset.signed');
 });
 
-Route::middleware('web.authenticated')->group(function () {
-    Route::post('/logout', PostLogoutAction::class)->name('post.auth.logout');
+middleware('web.authenticated', function () {
+    post('/logout', PostLogoutAction::class)
+        ->name('post.auth.logout');
 });

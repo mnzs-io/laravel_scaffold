@@ -78,9 +78,11 @@ return [
     */
 
     'locale' => env('APP_LOCALE', 'en'),
-
+    'log' => [
+        'key' => env('MONGO_LOG_KEY', 'generic'),
+        'collection' => env('MONGO_LOG_COLLECTION', 'generic'),
+    ],
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
-
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
     /*
