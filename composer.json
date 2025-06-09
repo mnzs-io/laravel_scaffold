@@ -20,7 +20,6 @@
         "mongodb/laravel-mongodb": "^5.4",
         "predis/predis": "^3.0",
         "sentry/sentry-laravel": "^4.13",
-        "spatie/laravel-permission": "^6.17",
         "tightenco/ziggy": "^2.4"
     },
     "require-dev": {

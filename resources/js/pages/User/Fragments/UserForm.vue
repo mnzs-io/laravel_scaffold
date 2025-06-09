@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RoleBadgeGroup from '@/components/badges/RoleBadgeGroup.vue';
+import RoleBadgeGroup from '@/components/badges/AssociationBadges.vue';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';

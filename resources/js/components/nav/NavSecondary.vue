@@ -7,7 +7,7 @@ const { secondary } = useNav();
 
 <template>
     <SidebarGroup class="group-data-[collapsible=icon]:hidden" v-if="secondary.length > 0">
-        <SidebarGroupLabel>...</SidebarGroupLabel>
+        <SidebarGroupLabel>Ferramentas</SidebarGroupLabel>
         <SidebarMenu>
             <SidebarMenuItem v-for="item in secondary" :key="item.title">
                 <SidebarMenuButton as-child>

@@ -11,21 +11,26 @@ import {
     SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 import { useNav } from '@/composables/useNav';
-import { useAuthStore } from '@/stores/auth_store';
 import { Link, usePage } from '@inertiajs/vue3';
 import { ChevronRight } from 'lucide-vue-next';
 
-const { main, shouldShow } = useNav();
+const { shouldShow } = useNav();
 const page = usePage();
-const { user } = useAuthStore();
+
+defineProps<{
+    isOpen: boolean;
+    role: LaravelRole;
+    label: string;
+    menu: NavGroup[];
+}>();
 </script>
 
 <template>
-    <SidebarGroup>
-        <SidebarGroupLabel>Menu</SidebarGroupLabel>
+    <SidebarGroup v-if="shouldShow(role)">
+        <SidebarGroupLabel>{{ label }}</SidebarGroupLabel>
         <SidebarMenu>
-            <Collapsible v-for="item in main" :key="item.slug" as-child :default-open="page.url.startsWith(item.slug)" class="group/collapsible">
-                <SidebarMenuItem v-if="shouldShow(user, item.roles)">
+            <Collapsible v-for="item in menu" :key="item.slug" as-child :default-open="page.url.startsWith(item.slug)" class="group/collapsible">
+                <SidebarMenuItem v-if="shouldShow(item.roles)">
                     <CollapsibleTrigger as-child>
                         <SidebarMenuButton :tooltip="item.title" v-if="item.items">
                             <component :is="item.icon" v-if="item.icon" />

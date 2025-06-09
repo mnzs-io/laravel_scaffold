@@ -22,7 +22,7 @@ function unselect() {
 
 <template>
     <div class="px-4 sm:flex sm:items-center">
-        <h1 class="text-base font-semibold">Usuários</h1>
+        <h1 class="text-base font-semibold">Organizações</h1>
     </div>
     <UsersTable :result @selected="select" />
     <UserForm :user="selectedUser" @saved="unselect" @canceled="unselect" />

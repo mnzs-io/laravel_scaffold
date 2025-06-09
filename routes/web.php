@@ -23,6 +23,12 @@ require __DIR__ . '/actions/settings.php';
 require __DIR__ . '/actions/socialite.php';
 require __DIR__ . '/actions/users.php';
 
+// SUPER ADMIN ONLY
+require __DIR__ . '/actions/organizations.php';
+
+// ADMIN ONLY
+require __DIR__ . '/actions/teachers.php';
+
 /***************************************************************/
 // TODO: Remover após testar as funcionalidades de Broadcasting *
 require __DIR__ . '/likes_to_remove.php';                    /**/

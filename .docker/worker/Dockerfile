@@ -37,6 +37,10 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
     zip
 
 
+# 🧩 MONGODB: Instala e habilita a extensão MongoDB
+RUN pecl install mongodb && docker-php-ext-enable mongodb
+
+
 # Instala Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 

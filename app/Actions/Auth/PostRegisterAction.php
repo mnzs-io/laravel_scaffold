@@ -2,7 +2,7 @@
 
 namespace App\Actions\Auth;
 
-use App\Enums\Roles;
+use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
@@ -50,7 +50,7 @@ class PostRegisterAction extends Controller
             'password' => bcrypt($data['password']),
         ]);
 
-        $user->assignRole(Roles::CLIENT);
+        $user->assignRole(Role::CLIENT);
 
         Auth::login($user);
         session()->regenerate();

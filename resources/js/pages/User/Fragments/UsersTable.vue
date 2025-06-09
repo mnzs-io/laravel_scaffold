@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import ActiveBadge from '@/components/badges/ActiveBadge.vue';
-import RoleBadgeGroup from '@/components/badges/RoleBadgeGroup.vue';
+import AssociationBadges from '@/components/badges/AssociationBadges.vue';
 import Pagination from '@/components/table/Pagination.vue';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { getInitials } from '@/stores/auth_store';
 import { User } from '@/types';
-import { PaginatedResult, RoleWithId } from '@/types/server/laravel_types';
+import { PaginatedResult } from '@/types/server/laravel_types';
 import { Link } from '@inertiajs/vue3';
 import { Eye, Power } from 'lucide-vue-next';
 
@@ -55,8 +55,8 @@ function select(user: User) {
                                 <td class="px-3 py-5 text-center text-sm whitespace-nowrap">
                                     <ActiveBadge :active="user.active" />
                                 </td>
-                                <td class="px-3 py-5 text-center text-sm whitespace-nowrap">
-                                    <RoleBadgeGroup :roles="user.roles as RoleWithId[]" />
+                                <td class="px-3 py-5 text-center text-sm">
+                                    <AssociationBadges summarized :associations="user.associations" />
                                 </td>
                                 <td
                                     class="relative flex items-center justify-end space-x-2 py-5 pr-4 pl-3 text-center text-xs font-medium whitespace-nowrap sm:pr-0"

@@ -1,0 +1,140 @@
+{
+    "organization": {
+        "name": "Memory Cards",
+        "slug": "memory-cards",
+        "color": "blue",
+        "active": true
+    },
+    "course": {
+        "name": "Polícia Federal – Perito Informática",
+        "slug": "pf-perito-informatica",
+        "color": "blue",
+        "active": true
+    },
+    "subjects": [
+        {
+            "name": "Informática Forense",
+            "color": "gray",
+            "topics": [
+                {
+                    "name": "Conceitos básicos e fundamentos da Informática Forense",
+                    "cards": [
+                        {
+                            "front": "O que é Informática Forense?",
+                            "back": "É a aplicação de técnicas da ciência da computação em investigações legais."
+                        },
+                        {
+                            "front": "Qual a importância da Informática Forense?",
+                            "back": "Ela permite a obtenção de provas digitais de forma técnica e legal."
+                        }
+                    ],
+                    "questions": [
+                        {
+                            "statement": "A Informática Forense é definida como:",
+                            "comment": "A Informática Forense utiliza métodos técnicos para coletar e analisar evidências digitais com valor legal.",
+                            "alternatives": [
+                                {
+                                    "text": "Aplicação da computação para investigação legal",
+                                    "is_correct": true
+                                },
+                                {
+                                    "text": "Desenvolvimento de sistemas operacionais",
+                                    "is_correct": false
+                                },
+                                {
+                                    "text": "Gerenciamento de redes corporativas",
+                                    "is_correct": false
+                                },
+                                {
+                                    "text": "Criação de softwares para produtividade",
+                                    "is_correct": false
+                                }
+                            ]
+                        },
+                        {
+                            "statement": "Um dos principais objetivos da Informática Forense é:",
+                            "comment": "Identificar, preservar, analisar e apresentar dados digitais de forma válida juridicamente.",
+                            "alternatives": [
+                                {
+                                    "text": "Recuperar arquivos deletados sem autorização",
+                                    "is_correct": false
+                                },
+                                {
+                                    "text": "Detectar e tratar malware",
+                                    "is_correct": false
+                                },
+                                {
+                                    "text": "Fornecer evidências digitais admissíveis",
+                                    "is_correct": true
+                                },
+                                {
+                                    "text": "Instalar sistemas de monitoramento",
+                                    "is_correct": false
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Tipos de evidências digitais e fontes de prova",
+                    "cards": [
+                        {
+                            "front": "O que são evidências digitais?",
+                            "back": "São informações armazenadas ou transmitidas em formato digital que podem servir como prova."
+                        },
+                        {
+                            "front": "Exemplos de evidências digitais?",
+                            "back": "Logs de sistema, e-mails, arquivos, registros de chamadas, etc."
+                        }
+                    ],
+                    "questions": [
+                        {
+                            "statement": "São exemplos de evidências digitais, EXCETO:",
+                            "comment": "Papéis físicos não são evidências digitais.",
+                            "alternatives": [
+                                {
+                                    "text": "Logs de sistema",
+                                    "is_correct": false
+                                },
+                                {
+                                    "text": "Arquivos eletrônicos",
+                                    "is_correct": false
+                                },
+                                {
+                                    "text": "Papéis impressos",
+                                    "is_correct": true
+                                },
+                                {
+                                    "text": "Registros de chamadas",
+                                    "is_correct": false
+                                }
+                            ]
+                        },
+                        {
+                            "statement": "Qual das opções abaixo é considerada uma evidência digital?",
+                            "comment": "Logs de sistema armazenam registros de atividades, importantes para investigações.",
+                            "alternatives": [
+                                {
+                                    "text": "Depoimento de testemunha",
+                                    "is_correct": false
+                                },
+                                {
+                                    "text": "Print de tela impresso",
+                                    "is_correct": false
+                                },
+                                {
+                                    "text": "Log de acesso a servidor",
+                                    "is_correct": true
+                                },
+                                {
+                                    "text": "Bilhete manuscrito",
+                                    "is_correct": false
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

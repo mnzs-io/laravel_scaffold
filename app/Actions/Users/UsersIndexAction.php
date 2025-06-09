@@ -2,13 +2,14 @@
 
 namespace App\Actions\Users;
 
+use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Tools\Cache\UserCache;
 use App\Traits\ApiResponses;
 use App\Traits\HybridResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Spatie\Permission\Models\Role;
 
 class UsersIndexAction extends Controller
 {
@@ -24,7 +25,8 @@ class UsersIndexAction extends Controller
         $perPage = $request->input('per_page', 6);
 
         return Inertia::render('User/UserIndex', [
-            'result' => User::with('roles')->paginate($perPage)->withQueryString()->through(function ($user) {
+            'breadcrumbs' => [['title' => 'Lista de Usuários', 'href' => '#']],
+            'result' => User::paginate($perPage)->withQueryString()->through(function ($user) {
                 return [
                     'id' => $user->id,
                     'name' => $user->name,
@@ -32,13 +34,10 @@ class UsersIndexAction extends Controller
                     'force_password_reset' => $user->force_password_reset,
                     'active' => $user->active,
                     'email' => $user->email,
-                    'roles' => $user->roles->map(fn ($role) => [
-                        'id' => $role->id,
-                        'name' => $role->name,
-                    ]),
+                    'associations' => UserCache::associations($user),
                 ];
             }),
-            'roles' => Role::all()->pluck('name', 'id'),
+            'roles' => Role::cases(),
         ]);
     }
 

@@ -1,7 +1,7 @@
 import type { PageProps } from '@inertiajs/core';
 import type { LucideIcon } from 'lucide-vue-next';
 import type { Config } from 'ziggy-js';
-import { LaravelRole, RoleWithId } from './server/laravel_types';
+import { Association, LaravelRole } from './server/laravel_types';
 
 export interface BreadcrumbItem {
     title: string;
@@ -15,8 +15,8 @@ export interface NavGroup {
     url?: string;
     icon: LucideIcon;
     isActive?: boolean;
-    roles: Roles[] | '*' | 'none';
-    except?: Roles[];
+    roles: LaravelRole[] | '*' | 'none';
+    except?: LaravelRole[];
     items?: NavItem[];
 }
 
@@ -26,8 +26,8 @@ export interface NavItem {
     url: string;
     icon?: LucideIcon;
     isActive?: boolean;
-    roles: Roles[] | '*' | 'none';
-    except?: Roles[];
+    roles: LaravelRole[] | '*' | 'none';
+    except?: LaravelRole[];
 }
 
 export interface Breadcrumb {
@@ -50,7 +50,7 @@ export interface User {
     email_verified_at: string | null;
     created_at: string | null;
     updated_at: string | null;
-    roles: LaravelRole[] | RoleWithId[];
+    associations: Association[];
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;

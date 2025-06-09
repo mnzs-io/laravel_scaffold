@@ -4,17 +4,25 @@ export type LaravelError = {
     errors?: Record<string, string[]>;
 };
 
-export type RoleWithId = {
-    id: number;
-    name: LaravelRole;
-};
+export type LaravelRole = 'ADMIN' | 'CLIENT' | 'SUPER_ADMIN' | 'TEACHER';
 
-export type LaravelRole = 'ADMIN' | 'CLIENT';
-
-export const Roles: Record<string, LaravelRole> = {
+export const Role: Record<string, LaravelRole> = {
     ADMIN: 'ADMIN',
     CLIENT: 'CLIENT',
+    SUPER_ADMIN: 'SUPER_ADMIN',
+    TEACHER: 'TEACHER',
 };
+export interface Association {
+    id: number;
+    role: LaravelRole;
+    associable?: {
+        id: string;
+        name: string;
+        slug?: string;
+        [key: string]: any;
+    };
+    alias?: string;
+}
 
 export interface LaravelLoginResponse {
     access_token: string;
@@ -70,4 +78,19 @@ export interface Settings {
     key: string;
     label: string;
     value: string | boolean;
+}
+
+export interface User {
+    id: string;
+    name: string;
+    email: string;
+    avatar: string;
+    active: boolean;
+    email_verified_at: string | null;
+    created_at: string | null;
+    updated_at: string | null;
+
+    associations: Association[];
+
+    roles: LaravelRole[];
 }

@@ -7,10 +7,10 @@ import { LogEntry } from '@/types/log_entry';
 import { PaginatedResult } from '@/types/server/laravel_types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { Ref, ref } from 'vue';
-import LogsTable from '../User/Fragments/LogsTable.vue';
 import LogDetails from './Components/LogDetails.vue';
 import LogLevelSelect from './Components/Selects/LogLevelSelect.vue';
 import LogTypeSelect from './Components/Selects/LogTypeSelect.vue';
+import LogsTable from './Fragments/LogsTable.vue';
 
 // Define os tipos para os dados do log
 

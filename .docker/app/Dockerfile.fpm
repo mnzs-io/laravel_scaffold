@@ -57,12 +57,12 @@ RUN sed -i "s/user = www-data/user = sail/" /usr/local/etc/php-fpm.d/www.conf &&
     sed -i "s/;listen.group = www-data/listen.group = sail/" /usr/local/etc/php-fpm.d/www.conf
 
 # 📁 WORKDIR: Define o diretório de trabalho no projeto Laravel
-WORKDIR /var/www/public
+WORKDIR /var/www
 
 # 📂 DIRETÓRIOS: Cria e ajusta permissões dos diretórios de cache e storage do Laravel
-RUN mkdir -p /var/www/storage /var/www/bootstrap/cache && \
-    chown -R sail:sail /var/www/storage /var/www/bootstrap/cache /var/www/public && \
-    chmod -R 775 /var/www/storage /var/www/bootstrap/cache /var/www/public
+RUN mkdir -p /var/www/public /var/www/storage /var/www/bootstrap/cache && \
+    chown -R sail:sail /var/www/public /var/www/storage /var/www/bootstrap/cache && \
+    chmod -R 775 /var/www/public /var/www/storage /var/www/bootstrap/cache
 
 # 👤 USUÁRIO: Alterna para o usuário 'sail'
 USER sail

@@ -10,15 +10,19 @@ return new class extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
-            $table->string('street');
+
+            // Polimórfico
+            $table->uuidMorphs('addressable');
+
+            $table->string('street')->nullable();
             $table->string('number')->nullable();
             $table->string('complement')->nullable();
-            $table->string('neighborhood');
+            $table->string('neighborhood')->nullable();
             $table->string('city');
             $table->string('state', 2);
-            $table->string('postal_code', 10);
+            $table->string('postal_code', 10)->nullable();
             $table->string('country')->default('BR');
+
             $table->timestamps();
         });
     }

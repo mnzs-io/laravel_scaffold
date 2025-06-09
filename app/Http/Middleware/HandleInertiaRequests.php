@@ -2,26 +2,15 @@
 
 namespace App\Http\Middleware;
 
+use App\Tools\Cache\UserCache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Context;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
 {
-    /**
-     * The root template that's loaded on the first page visit.
-     *
-     * @see https://inertiajs.com/server-side-setup#root-template
-     *
-     * @var string
-     */
     protected $rootView = 'app';
 
-    /**
-     * Determines the current asset version.
-     *
-     * @see https://inertiajs.com/asset-versioning
-     */
     public function version(Request $request): ?string
     {
         return parent::version($request);
@@ -30,8 +19,11 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $user = $request->user();
+        $associations = [];
+
         if ($user) {
-            Context::add('user', $user->pluck('email', 'id'));
+            $associations = UserCache::associations($user);
+            Context::add('user', $user->only(['id', 'email']));
         }
 
         return [
@@ -42,9 +34,9 @@ class HandleInertiaRequests extends Middleware
                 'name' => $user->name,
                 'email' => $user->email,
                 'avatar' => $user->avatar,
-                'roles' => $user->roles->pluck('name'),
+                'associations' => $associations,
             ] : null,
-            'association' => $request->user() ? session('association') : null,
+            'association' => $user ? session('association') : null,
         ];
     }
 }

@@ -1,20 +1,18 @@
-<script lang="ts">
-export const description = 'A sidebar that collapses to icons.';
-export const iframeHeight = '800px';
-export const containerClass = 'w-full h-full';
-</script>
 <script setup lang="ts">
 import AppBreadcrumbs from '@/components/app/AppBreadcrumbs.vue';
 import AppSidebar from '@/components/app/AppSidebar.vue';
 import AppThemeSelector from '@/components/app/AppThemeSelector.vue';
 import { Separator } from '@/components/ui/separator';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { usePage } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import LayoutWrapper from './LayoutWrapper.vue';
 
 const page = usePage();
+const lastBreadCrumb = computed(() => page.props.breadcrumbs?.at(-1));
 </script>
 <template>
+    <Head :title="lastBreadCrumb?.title || '...'" />
     <LayoutWrapper>
         <SidebarProvider>
             <AppSidebar />

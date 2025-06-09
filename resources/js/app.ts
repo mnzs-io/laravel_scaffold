@@ -1,5 +1,4 @@
 import { createInertiaApp } from '@inertiajs/vue3';
-import * as Sentry from '@sentry/vue';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
@@ -39,12 +38,12 @@ createInertiaApp({
             .use(pinia)
             .use(ZiggyVue);
 
-        Sentry.init({
-            app,
-            dsn: 'https://cc348c4b4f007f4ba2105e17d0656808@o4509392626188288.ingest.us.sentry.io/4509392627367937',
-            sendDefaultPii: true,
-            integrations: [],
-        });
+        // Sentry.init({
+        //     app,
+        //     dsn: 'https://cc348c4b4f007f4ba2105e17d0656808@o4509392626188288.ingest.us.sentry.io/4509392627367937',
+        //     sendDefaultPii: true,
+        //     integrations: [],
+        // });
         app.mount(el);
     },
     progress: {
